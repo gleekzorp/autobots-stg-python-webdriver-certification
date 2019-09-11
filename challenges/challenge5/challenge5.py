@@ -29,19 +29,46 @@ class Challenge5(unittest.TestCase):
         model_list = WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located((By.XPATH, '//*[@data-uname="lotsearchLotmodel"]'))
         )
-
-        models = []
-        for model in model_list:
-            models.append(model.get_attribute('innerHTML'))
-
-        models_dictionary = collections.Counter(models)
-        for keys in models_dictionary:
-            print(keys, '-', models_dictionary[keys])
-
         damage_type_list = WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located((By.XPATH, '//*[@data-uname="lotsearchLotdamagedescription"]'))
         )
 
+
+        # Model Attempt 1
+        # models = []
+        # for model in model_list:
+        #     if model.get_attribute('innerHTML') == '[[ lm ]]':
+        #         continue
+        #     else:
+        #         models.append(model.get_attribute('innerHTML'))
+
+        # models_dictionary = collections.Counter(models)
+        # for keys in models_dictionary:
+        #     print(keys, '-', models_dictionary[keys])
+
+
+        # Model Attempt 2
+        # models_dictionary = {}
+        #
+        # for model in model_list:
+        #     model_inner_html = model.get_attribute('innerHTML')
+        #     if model_inner_html == '[[ lm ]]':
+        #         continue
+        #     if model_inner_html in models_dictionary:
+        #         models_dictionary[model_inner_html] += 1
+        #     else:
+        #         models_dictionary[model_inner_html] = 1
+        #
+        # print(models_dictionary)
+
+
+        # Model Attempt 3
+        models_dictionary = collections.Counter()
+        for model in model_list:
+            models_dictionary[model.get_attribute('innerHTML')] += 1
+        print(models_dictionary)
+
+        # Damage Types
         damage_types = {
             'REAR END': 0,
             'FRONT END': 0,
