@@ -2,7 +2,7 @@ import unittest
 from selenium import webdriver
 
 
-class Challenge1(unittest.TestCase):
+class Challenge3(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome("../chromedriver")
@@ -17,6 +17,24 @@ class Challenge1(unittest.TestCase):
         for x in popular_items_makes_models:
             # print(x.get_attribute('innerHTML') + ' - ' + x.get_attribute('href'))
             print(f"{x.get_attribute('innerHTML')} - {x.get_attribute('href')}")
+
+        counter = 0
+        while counter < len(popular_items_makes_models):
+            print(popular_items_makes_models[counter].get_attribute('innerHTML') + ' - ' + popular_items_makes_models[counter].get_attribute('href'))
+            counter += 1
+
+    def test_challenge3_categories(self):
+        self.driver.get('https://www.copart.com/')
+        categories = self.driver.find_elements_by_xpath('//*[@ng-if="popularSearches"]/../div[3]//a')
+
+        for x in categories:
+            # print(x.get_attribute('innerHTML') + ' - ' + x.get_attribute('href'))
+            print(f"{x.get_attribute('innerHTML')} - {x.get_attribute('href')}")
+
+        counter = 0
+        while counter < len(categories):
+            print(categories[counter].get_attribute('innerHTML') + ' - ' + categories[counter].get_attribute('href'))
+            counter += 1
 
 
 if __name__ == '__main__':
