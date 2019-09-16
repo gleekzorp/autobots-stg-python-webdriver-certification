@@ -26,10 +26,18 @@ class Challenge5(unittest.TestCase):
         show_how_many_entries_button.click()
         option_one_hundred = self.driver.find_element_by_xpath("//*[@id='serverSideDataTable_length']//option[3]")
         option_one_hundred.click()
-        model_list = WebDriverWait(self.driver, 10).until(
+
+        WebDriverWait(self.driver, 20).until(
+            EC.visibility_of_element_located((By.ID, "serverSideDataTable_processing"))
+        )
+        WebDriverWait(self.driver, 20).until(
+            EC.invisibility_of_element_located((By.ID, "serverSideDataTable_processing"))
+        )
+
+        model_list = WebDriverWait(self.driver, 20).until(
             EC.presence_of_all_elements_located((By.XPATH, '//*[@data-uname="lotsearchLotmodel"]'))
         )
-        damage_type_list = WebDriverWait(self.driver, 10).until(
+        damage_type_list = WebDriverWait(self.driver, 20).until(
             EC.presence_of_all_elements_located((By.XPATH, '//*[@data-uname="lotsearchLotdamagedescription"]'))
         )
 

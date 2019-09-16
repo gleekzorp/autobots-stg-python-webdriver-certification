@@ -17,7 +17,7 @@ class Challenge2(unittest.TestCase):
 
     def test_challenge2(self):
         search_term = "exotics"
-        search_word = 'ROLLS-ROYCE'
+        search_word = 'MASERATI'
         self.driver.get('https://www.copart.com/')
         # input_field = self.driver.find_element_by_id('input-search')
         # input_field.send_keys(search_term)
