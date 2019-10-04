@@ -2,6 +2,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+from royale.pages.card_details_page import CardDetailsPage
 from royale.pages.pages import Pages
 
 
@@ -30,16 +31,30 @@ def test_details_are_correct(royale, card_name):
     royale.cards.goto()
     royale.cards.get_card_by_name(card_name).click()
 
-    card_name_on_page = royale.card_detail.map.card_name.text
-    card_deets = royale.card_detail.map.card_deets.text.split(', ')
-    card_type = card_deets[0]
-    card_arena = card_deets[1]
-    card_rarity = royale.card_detail.map.card_rarity.text
+    card = royale.card_detail.get_base_card()
 
-    assert card_name_on_page == card_name
-    assert card_type == 'Troop'
-    assert card_arena == 'Arena 8'
-    assert card_rarity == 'Common'
+    assert card.name == card_name
+    assert card.type == 'Troop'
+    assert card.arena == 8
+    assert card.rarity == 'Common'
+
+
+# Original before chapter 4
+# @pytest.mark.parametrize('card_name', card_names)
+# def test_details_are_correct(royale, card_name):
+#     royale.cards.goto()
+#     royale.cards.get_card_by_name(card_name).click()
+#
+#     card_name_on_page = royale.card_detail.map.card_name.text
+#     card_deets = royale.card_detail.map.card_deets.text.split(', ')
+#     card_type = card_deets[0]
+#     card_arena = card_deets[1]
+#     card_rarity = royale.card_detail.map.card_rarity.text
+#
+#     assert card_name_on_page == card_name
+#     assert card_type == 'Troop'
+#     assert card_arena == 'Arena 8'
+#     assert card_rarity == 'Common'
 
 
 # Original

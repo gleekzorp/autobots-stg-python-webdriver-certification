@@ -35,9 +35,9 @@ def test_max_min():
 
 
 def test_the_real_max_min():
-    result = the_real_max_min('a cow jumped over the moon and jumped again')
+    result = the_real_max_min('a cow jumped over the moon and jumped again a a')
     print(result)
-    assert len(result[0]) > len(result[1])
+    assert len(result[0][0]) > len(result[1][0])
 
 
 # Checkout these
