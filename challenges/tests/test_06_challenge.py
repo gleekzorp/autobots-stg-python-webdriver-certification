@@ -1,3 +1,5 @@
+import sys
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -20,8 +22,15 @@ def test_06_challenge():
     driver.find_element(By.XPATH, "//*[@id='collapseinside4']//form//input").send_keys(search_model)
     try:
         driver.find_element(By.XPATH, f"//input[@value='{search_model}']")
-    except:
+    except Exception as e:
         driver.save_screenshot(f'{search_make}_{search_model}_not_found.png')
+        sys.exit(e)
     else:
         print('You found it!')
     driver.close()
+
+
+# Need to break this out into a class called filter so I can test all the different types of filters
+# except Exception as e
+# sys.exit(e)
+

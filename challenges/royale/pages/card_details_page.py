@@ -13,6 +13,9 @@ class CardDetailsPage:
     def get_base_card(self) -> Card:
         type_and_arena = self.get_card_type_and_arena()
         return Card(
+            id=0,
+            cost=0,
+            icon=None,
             name=self.map.card_name.text,
             type=type_and_arena[0],
             arena=type_and_arena[1],

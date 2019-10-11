@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 
 from royale.pages.card_details_page import CardDetailsPage
 from royale.pages.pages import Pages
+from royale.services import card_service
 
 
 @pytest.fixture
@@ -18,59 +19,56 @@ def royale():
 # card_names = ['Ice Spirit', 'Mirror', 'Lava Hound']
 card_names = ['Ice Spirit']
 
+cards = card_service.get_all_cards()
 
-@pytest.mark.parametrize('card_name', card_names)
-def test_card_is_displayed(royale, card_name):
+
+@pytest.mark.parametrize('api_card', cards)
+def test_card_is_displayed(royale, api_card):
     royale.cards.goto()
-    card = royale.cards.get_card_by_name(card_name)
-    assert card.is_displayed
+    card_on_page = royale.cards.get_card_by_name(api_card.name)
+    assert card_on_page.is_displayed
 
 
-@pytest.mark.parametrize('card_name', card_names)
-def test_details_are_correct(royale, card_name):
+# Before change
+# @pytest.mark.parametrize('card_name', card_names)
+# def test_card_is_displayed(royale, card_name):
+#     royale.cards.goto()
+#     card = royale.cards.get_card_by_name(card_name)
+#     assert card.is_displayed
+
+@pytest.mark.parametrize('api_card', cards)
+def test_details_are_correct(royale, api_card):
     royale.cards.goto()
-    royale.cards.get_card_by_name(card_name).click()
+    royale.cards.get_card_by_name(api_card.name).click()
 
     card = royale.card_detail.get_base_card()
 
-    assert card.name == card_name
-    assert card.type == 'Troop'
-    assert card.arena == 8
-    assert card.rarity == 'Common'
+    assert card.name == api_card.name
+    # assert card.type == api_card.get_type(api_card.type)
+    assert card.type == api_card.type
+    assert card.arena == api_card.arena
+    assert card.rarity == api_card.rarity
 
-
-# Original before chapter 4
+# Before change
 # @pytest.mark.parametrize('card_name', card_names)
 # def test_details_are_correct(royale, card_name):
 #     royale.cards.goto()
 #     royale.cards.get_card_by_name(card_name).click()
 #
-#     card_name_on_page = royale.card_detail.map.card_name.text
-#     card_deets = royale.card_detail.map.card_deets.text.split(', ')
-#     card_type = card_deets[0]
-#     card_arena = card_deets[1]
-#     card_rarity = royale.card_detail.map.card_rarity.text
+#     card = royale.card_detail.get_base_card()
 #
-#     assert card_name_on_page == card_name
-#     assert card_type == 'Troop'
-#     assert card_arena == 'Arena 8'
-#     assert card_rarity == 'Common'
+#     assert card.name == card_name
+#     assert card.type == 'Troop'
+#     assert card.arena == 8
+#     assert card.rarity == 'Common'
 
 
-# Original
-# def test_details_are_correct(driver):
-#     cards_link = driver.find_element(By.CSS_SELECTOR, "a[href='/cards']")
-#     cards_link.click()
-#
-#     ice_spirit = driver.find_element(By.CSS_SELECTOR, "a[href*='Ice+Spirit']")
-#     ice_spirit.click()
-#
-#     card_name = driver.find_element(By.CSS_SELECTOR, "[class*='ui__headerMedium card__cardName']").text
-#     card_deets = driver.find_element(By.CSS_SELECTOR, "[class*='card__rarity']").text.split(', ')
-#     card_type = card_deets[0]
-#     card_arena = card_deets[1]
-#     card_rarity = driver.find_element(By.CSS_SELECTOR, "[class*='card__count']").text
-#     assert card_name == 'Ice Spirit'
-#     assert card_type == 'Troop'
-#     assert card_arena == 'Arena 8'
-#     assert card_rarity == 'Common'
+def test_ice_spirit_is_not_displayed(royale):
+    royale.cards.goto()
+    royale.driver.find_element(By.ID, "common-cards").click()
+
+    ice_spirit_card = royale.driver.find_element(By.CSS_SELECTOR, "[href*='Ice+Spirit']")
+
+    assert ice_spirit_card.is_displayed() is False
+
+

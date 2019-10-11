@@ -29,4 +29,4 @@ class CardsPageMap:
         :param card_name: the card name
         :return: The card as a WebElement
         """
-        return self._driver.find_element(By.CSS_SELECTOR, f"a[href*='{card_name}']")
+        return self._driver.find_element(By.CSS_SELECTOR, f"a[href*='/{card_name}']")
